@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
 
-            List <string> Words = new List<string> { "apple", "banana", "cherry", "date", "elderberry" };
+            List <string> Words = new List<string> { "apple", "elderberry" };
 
             Console.WriteLine("Welcome to Hangman! You will be guessing the letters of a secret word.");
 
@@ -17,7 +17,12 @@
 
             int wordLength = secretWord.Length;
 
-            string displayWord = new string('_', wordLength);
+            char[] displayWord = new char[wordLength];
+
+            for (int i = 0; i < wordLength; i++)
+            {
+                displayWord[i] = '_';
+            }
 
             char[] guessedLetters = new char[wordLength];
 
@@ -25,16 +30,15 @@
 
             for (int i = 0; i < wordLength; i++)
             {
-                Console.WriteLine("\nYou have " + (wordLength - i) + " chances to guess the word. Guess this word: " + displayWord);
+                Console.WriteLine("\nYou have " + (wordLength - i) + " chances to guess the word. Guess this word: " + new string(displayWord) + "\n");
 
                 guessedLetters[i] = Console.ReadKey().KeyChar;
 
-                foreach (char letter in secretWord)
+                for (int j = 0; j < wordLength; j++)
                 {
-                    if(letter == guessedLetters[i])
+                    if (guessedLetters[i] == secretWord[j])
                     {
-                        Console.Write(letter);
-                        //displayWord[i] = letter;  Why is this wrong? What's the alternative?
+                        displayWord[j] = guessedLetters[i];
                     }
                     else
                     {
@@ -42,8 +46,13 @@
                     }
                 }
 
-            }
+                if (new string(displayWord) == secretWord)
+                {
+                    Console.WriteLine("\nCongratulations! You have guessed the secret word: " + secretWord);
+                    break;
 
+                }
+            }
         }
     }
 }
