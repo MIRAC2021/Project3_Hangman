@@ -5,9 +5,9 @@
         static void Main(string[] args)
         {
 
-            List <string> Words = new List<string> { "apple", "elderberry" };
+            List <string> Words = new List<string> { "truth", "shall", "prevail", "boomboom", "secret", "service" };
 
-            Console.WriteLine("Welcome to Hangman! You will be guessing the letters of a secret word.");
+            Console.WriteLine("Welcome to Hangman! You will be guessing the letters of a secret word. The number of chances you have is equal to the length of the word.");
 
             Random rng = new Random();
 
@@ -40,17 +40,22 @@
                     {
                         displayWord[j] = guessedLetters[i];
                     }
-                    else
-                    {
-                        wrongGuesses++;
-                    }
                 }
 
                 if (new string(displayWord) == secretWord)
                 {
                     Console.WriteLine("\nCongratulations! You have guessed the secret word: " + secretWord);
                     break;
+                }
+                else
+                {
+                    wrongGuesses++;
+                }
 
+                if (wrongGuesses == wordLength)
+                {
+                    Console.WriteLine("\nSorry, you have run out of chances. The secret word was: " + secretWord);
+                    break;
                 }
             }
         }
