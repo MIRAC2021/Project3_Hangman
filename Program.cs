@@ -1,6 +1,6 @@
-﻿// increment tries..
-// gets challenging as games are won
-// do not allow the same word to be guessed twice
+﻿// TODO: increment tries..
+// TODO: gets challenging as games are won
+// TODO: do not allow the same word to be guessed twice
 using System;
 using CrypticWizard.RandomWordGenerator;
 
@@ -10,14 +10,12 @@ namespace Hangman
     {
         static void Main(string[] args)
         {
-
-            List <string> Words = new List<string> { "truth", "shall", "prevail", "boomboom", "secret", "service" };
-
             Console.WriteLine("Welcome to Hangman! You will be guessing the letters of a secret word. The number of chances you have is equal to the length of the word.");
             Console.WriteLine("Would you like to play a game of Hangman? (Y/N)");
 
             int numberOfGames = 0;
             int gamesWon = 0;
+            
 
             while (true)
             {        
@@ -41,37 +39,34 @@ namespace Hangman
                     {
                         displayWord[i] = '_';
                     }
+                    int wrongGuesses = 0;
 
                     char[] guessedLetters = new char[wordLength];
 
-                    int wrongLetterGuesses = 0;
-
-                    for (int i = 0; i < wordLength; i++)
+                    while(wrongGuesses < wordLength)
                     {
-                        Console.WriteLine("\nYou have " + (wordLength - i) + " chances to guess the word. Guess this word: " + new string(displayWord) + "\n");
-
-                        guessedLetters[i] = Console.ReadKey().KeyChar;
-
+                        Console.WriteLine("\nYou have " + (wordLength - wrongGuesses) + " chances to guess the word. Guess this word: " + new string(displayWord) + "\n");
+                        char guessedLetter = Console.ReadKey().KeyChar;
+                        bool letterFound = false;
                         for (int j = 0; j < wordLength; j++)
                         {
-                            if (guessedLetters[i] == secretWord[j])
+                            if (guessedLetter == secretWord[j])
                             {
-                                displayWord[j] = guessedLetters[i];
+                                displayWord[j] = guessedLetter;
+                                letterFound = true;
                             }
                         }
-
+                        if (!letterFound)
+                        {
+                            wrongGuesses++;
+                        }
                         if (new string(displayWord) == secretWord)
                         {
                             Console.WriteLine("\nCongratulations! You have guessed the secret word: " + secretWord);
                             gamesWon++;
                             break;
                         }
-                        else
-                        {
-                            wrongLetterGuesses++;
-                        }
-
-                        if (wrongLetterGuesses == wordLength)
+                        if (wrongGuesses == wordLength)
                         {
                             Console.WriteLine("\nSorry, you have run out of chances. The secret word was: " + secretWord);
                             break;
@@ -92,9 +87,7 @@ namespace Hangman
                 Console.WriteLine("Games won: " + gamesWon); 
                 Console.WriteLine("Games played: " + numberOfGames);
                 Console.Write("Would you like to play another game of Hangman? (Y/N)");
-
-            }
-            
+            }  
         }
     }
 }
